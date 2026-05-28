@@ -33,6 +33,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Instalar PM2
+        run: npm install -D pm2
+
       - name: Reiniciar con PM2
         run: |
           $process = pm2 describe snippets-test 2>&1
