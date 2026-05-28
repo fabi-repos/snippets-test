@@ -13,6 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4 # clona/actualiza solo
 
+      - name: Instalar pnpm
+        run: npm install -g pnpm
+
       - name: Instalar dependencias
         run: pnpm install
 
