@@ -64,4 +64,5 @@ jobs:
       - name: Reiniciar app
         run: |
           Stop-Service -Name "snippets-test" -Force -ErrorAction SilentlyContinue
+          Start-Sleep -Seconds 3
           Start-Service -Name "snippets-test"
