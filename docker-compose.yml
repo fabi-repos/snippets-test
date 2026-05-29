@@ -1,0 +1,6 @@
+services:
+  frontend:
+    build: .
+    ports:
+      - "3052:8080"
+    restart: always

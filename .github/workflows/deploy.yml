@@ -61,8 +61,14 @@ jobs:
       #   Write-Host "Despues:"
       #   Get-Service snippets-test
 
-      - name: Reiniciar app
+      # - name: Reiniciar app
+      #   run: |
+      #     Stop-Service -Name "snippets-test" -Force -ErrorAction SilentlyContinue
+      #     Start-Sleep -Seconds 3
+      #     Start-Service -Name "snippets-test"
+
+      - name: Deploy frontend
         run: |
-          Stop-Service -Name "snippets-test" -Force -ErrorAction SilentlyContinue
-          Start-Sleep -Seconds 3
-          Start-Service -Name "snippets-test"
+          cd D:\actions-runner\_work\snippets-test\snippets-test
+          docker-compose down
+          docker-compose up -d --build
