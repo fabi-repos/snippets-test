@@ -2,7 +2,7 @@
 FROM node:lts-alpine3.23 AS builder
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --frozen-lockfile --prod=false
 COPY . .
 RUN pnpm build
 
