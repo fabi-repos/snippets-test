@@ -35,5 +35,5 @@ jobs:
 
       - name: Reiniciar app
         run: |
-          C:\winSW\snippets-test.exe stop
-          C:\winSW\snippets-test.exe start
+          Stop-Service -Name "snippets-test" -Force -ErrorAction SilentlyContinue
+          Start-Service -Name "snippets-test"
