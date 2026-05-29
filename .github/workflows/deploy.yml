@@ -33,35 +33,35 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Test control servicio
+      # - name: Test control servicio
+      # run: |
+      #   Write-Host "Antes:"
+      #   Get-Service snippets-test
+
+      #   try {
+      #     Stop-Service snippets-test -Force
+      #     Write-Host "Stop OK"
+      #   }
+      #   catch {
+      #     Write-Host "Stop ERROR:"
+      #     Write-Host $_
+      #   }
+
+      #   Start-Sleep -Seconds 5
+
+      #   try {
+      #     Start-Service snippets-test
+      #     Write-Host "Start OK"
+      #   }
+      #   catch {
+      #     Write-Host "Start ERROR:"
+      #     Write-Host $_
+      #   }
+
+      #   Write-Host "Despues:"
+      #   Get-Service snippets-test
+
+      - name: Reiniciar app
         run: |
-          Write-Host "Antes:"
-          Get-Service snippets-test
-
-          try {
-            Stop-Service snippets-test -Force
-            Write-Host "Stop OK"
-          }
-          catch {
-            Write-Host "Stop ERROR:"
-            Write-Host $_
-          }
-
-          Start-Sleep -Seconds 5
-
-          try {
-            Start-Service snippets-test
-            Write-Host "Start OK"
-          }
-          catch {
-            Write-Host "Start ERROR:"
-            Write-Host $_
-          }
-
-          Write-Host "Despues:"
-          Get-Service snippets-test
-
-      # - name: Reiniciar app
-      #   run: |
-      #     Stop-Service -Name "snippets-test" -Force -ErrorAction SilentlyContinue
-      #     Start-Service -Name "snippets-test"
+          Stop-Service -Name "snippets-test" -Force -ErrorAction SilentlyContinue
+          Start-Service -Name "snippets-test"
