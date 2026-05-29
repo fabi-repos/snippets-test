@@ -33,7 +33,18 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Reiniciar app
+      - name: Debug servicio
         run: |
-          Stop-Service -Name "snippets-test" -Force -ErrorAction SilentlyContinue
-          Start-Service -Name "snippets-test"
+          Write-Host "Usuario actual:"
+          whoami
+
+          Write-Host "`nGet-Service:"
+          Get-Service snippets-test -ErrorAction Continue
+
+          Write-Host "`nSC Query:"
+          sc.exe query snippets-test
+
+      # - name: Reiniciar app
+      #   run: |
+      #     Stop-Service -Name "snippets-test" -Force -ErrorAction SilentlyContinue
+      #     Start-Service -Name "snippets-test"
