@@ -1,10 +1,8 @@
 # Build
 FROM node:lts-alpine3.23 AS builder
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile --prod=false
 COPY . .
-RUN pnpm build
+RUN npm install -g pnpm && pnpm install && pnpm build
 
 # Serve
 FROM nginxinc/nginx-unprivileged:alpine-slim
