@@ -33,12 +33,7 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Reiniciar con PM2
+      - name: Reiniciar app
         run: |
-          $process = pnpm exec pm2 describe snippets-test 2>&1
-          if ($LASTEXITCODE -ne 0) {
-            pnpm exec pm2 start "npx serve dist -p 3052" --name "snippets-test"
-          } else {
-            pnpm exec pm2 restart snippets-test
-          }
-          pnpm exec pm2 save
+          C:\winSW\snippets-test.exe stop
+          C:\winSW\snippets-test.exe start
