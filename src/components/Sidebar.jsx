@@ -1,4 +1,6 @@
+import { useRef } from "react"
 import SearchBar from "./SearchBar"
+import ThemeToggle from "./ThemeToggle"
 
 const LANG_COLORS = {
   javascript: "text-yellow-400",
@@ -37,13 +39,28 @@ function formatDate(iso) {
 
 export default function Sidebar({
   snippets,
+  allSnippets,
   selectedId,
   onSelect,
   onDelete,
   onNew,
   searchQuery,
   onSearchChange,
+  onExport,
+  onImport,
 }) {
+  const importRef = useRef(null)
+
+  const handleImportClick = () => {
+    importRef.current?.click()
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0]
+    if (file) onImport(file)
+    e.target.value = ""
+  }
+
   return (
     <aside className="w-72 bg-gray-900 border-r border-gray-800 flex flex-col h-screen shrink-0">
       <div className="p-3 border-b border-gray-800 space-y-2">
@@ -118,6 +135,45 @@ export default function Sidebar({
             ))}
           </ul>
         )}
+      </div>
+
+      <div className="p-3 border-t border-gray-800 space-y-2">
+        <ThemeToggle />
+        <div className="flex gap-2">
+          <button
+            onClick={onExport}
+            disabled={allSnippets.length === 0}
+            className="
+              flex-1 px-3 py-1.5 text-xs font-medium
+              bg-gray-800 hover:bg-gray-700
+              disabled:opacity-40 disabled:cursor-not-allowed
+              text-gray-400 rounded-lg border border-gray-700
+              transition-colors cursor-pointer
+            "
+            title="Exportar snippets"
+          >
+            Exportar
+          </button>
+          <button
+            onClick={handleImportClick}
+            className="
+              flex-1 px-3 py-1.5 text-xs font-medium
+              bg-gray-800 hover:bg-gray-700
+              text-gray-400 rounded-lg border border-gray-700
+              transition-colors cursor-pointer
+            "
+            title="Importar snippets"
+          >
+            Importar
+          </button>
+          <input
+            ref={importRef}
+            type="file"
+            accept=".json"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+        </div>
       </div>
     </aside>
   )

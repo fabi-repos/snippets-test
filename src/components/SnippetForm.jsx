@@ -69,10 +69,12 @@ export default function SnippetForm({ snippet, onSave, onCancel }) {
         </select>
       </div>
 
-      <div className="flex-1 p-4 overflow-auto">
-        <CodeEditor value={code} onChange={setCode} language={language} />
+      <div className="flex-1 p-4 flex flex-col overflow-hidden">
+        <div className="flex-1 min-h-0">
+          <CodeEditor value={code} onChange={setCode} language={language} />
+        </div>
 
-        <div className="mt-4">
+        <div className="mt-4 shrink-0">
           <label className="block text-xs text-gray-500 mb-1">Tags (separados por coma)</label>
           <input
             type="text"

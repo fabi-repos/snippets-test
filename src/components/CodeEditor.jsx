@@ -1,72 +1,47 @@
-import { useRef, useEffect, useCallback } from "react"
-import hljs from "highlight.js"
-import "highlight.js/styles/github-dark.css"
+import { useCallback } from "react"
+import Editor from "@monaco-editor/react"
+import { useTheme } from "../context/ThemeContext"
+
+const LANGUAGE_MAP = {
+  jsx: "javascript",
+  tsx: "typescript",
+  bash: "shell",
+  csharp: "csharp",
+  cpp: "cpp",
+  plaintext: "plaintext",
+}
 
 export default function CodeEditor({ value, onChange, language }) {
-  const codeRef = useRef(null)
-  const editorRef = useRef(null)
+  const { effectiveTheme } = useTheme()
 
-  useEffect(() => {
-    if (codeRef.current) {
-      hljs.highlightElement(codeRef.current)
-    }
-  }, [value, language])
+  const monacoLanguage = LANGUAGE_MAP[language] || language
 
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === "Tab") {
-        e.preventDefault()
-        const start = e.target.selectionStart
-        const end = e.target.selectionEnd
-        const newValue = value.slice(0, start) + "  " + value.slice(end)
-        onChange(newValue)
-        requestAnimationFrame(() => {
-          editorRef.current.selectionStart = editorRef.current.selectionEnd = start + 2
-        })
-      }
+  const handleChange = useCallback(
+    (val) => {
+      onChange(val || "")
     },
-    [value, onChange]
+    [onChange]
   )
 
-  const handleScroll = useCallback(() => {
-    if (codeRef.current && editorRef.current) {
-      codeRef.current.scrollTop = editorRef.current.scrollTop
-      codeRef.current.scrollLeft = editorRef.current.scrollLeft
-    }
-  }, [])
-
   return (
-    <div className="relative">
-      <textarea
-        ref={editorRef}
+    <div className="h-full rounded-lg overflow-hidden border border-gray-700">
+      <Editor
+        height="100%"
+        language={monacoLanguage}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        onScroll={handleScroll}
-        placeholder="Escribe tu código aquí..."
-        className="
-          relative z-10 w-full h-64 p-4
-          font-mono text-sm leading-relaxed
-          text-transparent caret-gray-100
-          bg-transparent resize-none
-          border border-gray-700 rounded-lg
-          focus:outline-none focus:border-gray-500
-          placeholder:text-gray-600
-        "
-        spellCheck={false}
+        onChange={handleChange}
+        theme={effectiveTheme === "dark" ? "vs-dark" : "light"}
+        options={{
+          minimap: { enabled: false },
+          fontSize: 13,
+          lineNumbers: "on",
+          automaticLayout: true,
+          scrollBeyondLastLine: false,
+          padding: { top: 16, bottom: 16 },
+          tabSize: 2,
+          wordWrap: "on",
+        }}
       />
-      <pre
-        className="
-          absolute inset-0 z-0 w-full h-64 p-4 m-0
-          font-mono text-sm leading-relaxed
-          overflow-auto pointer-events-none
-          border border-transparent rounded-lg
-        "
-      >
-        <code ref={codeRef} className={`hljs language-${language}`}>
-          {value || "\n"}
-        </code>
-      </pre>
     </div>
   )
 }

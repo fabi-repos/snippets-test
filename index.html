@@ -1,6 +1,18 @@
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="es">
   <head>
+    <script>
+      (function() {
+        var theme = localStorage.getItem('snippets-theme') || 'system';
+        var isDark;
+        if (theme === 'system') {
+          isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } else {
+          isDark = theme === 'dark';
+        }
+        document.documentElement.classList.add(isDark ? 'dark' : 'light');
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodeSnippets</title>
