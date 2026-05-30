@@ -1,6 +1,7 @@
 # Build
 FROM node:lts-alpine3.23 AS builder
 WORKDIR /app
+ENV CI=true
 COPY . .
 RUN npm install -g pnpm && pnpm install --node-linker=hoisted && pnpm build
 
