@@ -2,7 +2,7 @@
 FROM node:lts-alpine3.23 AS builder
 WORKDIR /app
 COPY . .
-RUN npm install -g pnpm && pnpm install && pnpm build
+RUN npm install -g pnpm && pnpm install --node-linker=hoisted && pnpm build
 
 # Serve
 FROM nginxinc/nginx-unprivileged:alpine-slim
